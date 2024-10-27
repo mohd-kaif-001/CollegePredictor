@@ -4,18 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Guidance</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Firebase Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <h1>Career Guidance App</h1>
-    </header>
-    <main>
-        <button onclick="window.location.href='src/views/login.html'">Login</button>
-        <button onclick="window.location.href='src/views/signup.html'">Sign Up</button>
-    </main>
+
+    <form id="signupForm">
+        <h1>Sign Up</h1>
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Sign Up</button>
+        <p id="errorMessage" style="color:red;"></p>
+    </form>
+
+    <script type="module">
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCTY5uCXh8PI8EF0hC7EqmAnZ8G2lUw-KQ",
+            authDomain: "college-bf0dd.firebaseapp.com",
+            projectId: "college-bf0dd",
+            storageBucket: "college-bf0dd.appspot.com",
+            messagingSenderId: "180506935658",
+            appId: "1:180506935658:web:22d29c026b5837a6cd6513",
+            measurementId: "G-Z4SX4H94W7"
+        };
+
+        // Import Firebase SDK
+        import { initializeApp } from "firebase/app";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const signupForm = document.getElementById('signupForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                console.log('User signed up:', userCredential.user);
+                errorMessage.textContent = 'Sign up successful!';
+            } catch (error) {
+                console.error('Error signing up:', error);
+                errorMessage.textContent = error.message;
+            }
+        });
+    </script>
+
 </body>
 
 </html>
